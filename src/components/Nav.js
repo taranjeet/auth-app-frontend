@@ -12,7 +12,7 @@ const Nav = (props) => {
 
     const loggedInNav = (
         <ul>
-            <li>Logout</li>
+            <li onClick={() => props.handleLogout()}>Logout</li>
         </ul>
     );
 

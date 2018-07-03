@@ -15,6 +15,7 @@ class App extends Component {
     this.displayForm = this.displayForm.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.apiUrl = 'http://localhost:8003'
   }
 
@@ -58,6 +59,14 @@ class App extends Component {
     })
   }
 
+  handleLogout(){
+    localStorage.removeItem('token');
+    this.setState({
+      loggedIn: false,
+      username: ''
+    });
+  }
+
   displayForm(form) {
     this.setState({
       displayedForm: form
@@ -85,6 +94,7 @@ class App extends Component {
         <Nav
           loggedIn={this.state.loggedIn}
           displayForm={this.displayForm}
+          handleLogout={this.handleLogout}
         />
         {form}
         <h4>
