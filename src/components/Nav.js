@@ -4,8 +4,8 @@ const Nav = (props) => {
 
     const loggedOutNav = (
         <ul>
-            <li>Login</li>
-            <li>Signup</li>
+            <li onClick={() => props.displayForm('login')}>Login</li>
+            <li onClick={() => props.displayForm('signup')}>Signup</li>
         </ul>
 
     );
