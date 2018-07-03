@@ -14,6 +14,7 @@ class App extends Component {
     };
     this.displayForm = this.displayForm.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.apiUrl = 'http://localhost:8003'
   }
 
@@ -37,6 +38,26 @@ class App extends Component {
     })
   }
 
+  handleLogin(e, data) {
+    e.preventDefault();
+    fetch(`${this.apiUrl}/token-auth/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(json => {
+      localStorage.setItem('token', json.token);
+      this.setState({
+        loggedIn: true,
+        displayedForm: '',
+        username: json.user.username
+      })
+    })
+  }
+
   displayForm(form) {
     this.setState({
       displayedForm: form
@@ -48,7 +69,7 @@ class App extends Component {
     let form;
     switch(this.state.displayedForm) {
       case 'login':
-        form = <LoginForm />
+        form = <LoginForm handleLogin={this.handleLogin}/>
         break;
       case 'signup':
         form = <SignupForm handleSignup={this.handleSignup}/>
