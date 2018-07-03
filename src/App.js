@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loggedIn: false,
+      loggedIn: localStorage.getItem('token') ? true: false,
       displayedForm: '',
       username: ''
     };
@@ -17,6 +17,22 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.apiUrl = 'http://localhost:8003'
+  }
+
+  componentDidMount() {
+    if(this.state.loggedIn) {
+      fetch(`${this.apiUrl}/authdemo/current_user/`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          username: json.username
+        });
+      });
+    }
   }
 
   handleSignup(e, data) {
