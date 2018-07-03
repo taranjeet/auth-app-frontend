@@ -9,6 +9,7 @@ class SignupForm extends Component {
             username: '',
             password: ''
         };
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
@@ -22,7 +23,7 @@ class SignupForm extends Component {
 
     render() {
         return (
-            <form>
+            <form onSubmit={e => this.props.handleSignup(e, this.state)}>
                 <h4>Sign Up </h4>
                 <label>Username</label>
                 <input

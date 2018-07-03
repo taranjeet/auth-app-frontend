@@ -10,8 +10,31 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       displayedForm: '',
+      username: ''
     };
     this.displayForm = this.displayForm.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
+    this.apiUrl = 'http://localhost:8003'
+  }
+
+  handleSignup(e, data) {
+    e.preventDefault();
+    fetch(`${this.apiUrl}/authdemo/users/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(json => {
+      localStorage.setItem('token', json.token);
+      this.setState({
+        loggedIn: true,
+        displayedForm: '',
+        username: json.username
+      })
+    })
   }
 
   displayForm(form) {
@@ -28,7 +51,7 @@ class App extends Component {
         form = <LoginForm />
         break;
       case 'signup':
-        form = <SignupForm />
+        form = <SignupForm handleSignup={this.handleSignup}/>
         break;
       default:
         form=null;
@@ -43,6 +66,9 @@ class App extends Component {
           displayForm={this.displayForm}
         />
         {form}
+        <h4>
+          {this.state.loggedIn ? `Welcome ${this.state.username}`: 'Please Login'}
+        </h4>
       </div>
     );
   }
