@@ -106,16 +106,21 @@ class App extends Component {
 
     return (
       <div>
-        <h1>Authentication Demo</h1>
         <Nav
           loggedIn={this.state.loggedIn}
           displayForm={this.displayForm}
           handleLogout={this.handleLogout}
         />
-        {form}
-        <h4>
-          {this.state.loggedIn ? `Welcome ${this.state.username}`: 'Please Login'}
-        </h4>
+        {form ? (
+          <div className="card">
+            <h5 className="card-title">
+              {this.state.loggedIn ? `Welcome ${this.state.username}`: ''}
+            </h5>
+            <div className="card-body">
+              {form}
+            </div>
+          </div>
+        ) : ('')}
       </div>
     );
   }
